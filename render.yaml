@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: agentgate
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: CLOCKED_API_KEY
+        sync: false
+      - key: DAILY_CREDIT_CAP
+        value: "4000"
