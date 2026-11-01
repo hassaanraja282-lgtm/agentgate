@@ -6,8 +6,8 @@ AI agents now read inboxes, browse the web, triage tickets and run shell command
 
 AgentGate sits in front of the agent. Paste an email, web page, support ticket or script, say what the agent is about to do with it, and AgentGate returns **allow / review / block** with the evidence behind it, a masked copy that is safe to hand over, and an audit record.
 
-**Live demo:** LIVE_URL_PLACEHOLDER
-**Demo video:** VIDEO_URL_PLACEHOLDER
+**Live demo:** https://agentgate-csrt.onrender.com (Render free tier: the first request after idle can take ~50 s to wake)
+**Demo video (2 min, captioned):** https://github.com/hassaanraja282-lgtm/agentgate/releases/download/v1.0.0/AgentGate_demo.mp4 · [release page](https://github.com/hassaanraja282-lgtm/agentgate/releases/tag/v1.0.0)
 
 ![AgentGate blocking a supplier email that hides instructions for the AI assistant](docs/invoice-email.png)
 
