@@ -1,0 +1,26 @@
+{
+  "name": "agentgate",
+  "version": "1.0.0",
+  "description": "Pre-flight safety gate for anything an AI agent is about to read or run, built on Clocked Protect, Guard, Inspect, Decide and Fill.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_USE_ENV_PROXY=1 node server.js",
+    "smoke": "node scripts/smoke.js"
+  },
+  "keywords": [
+    "clocked",
+    "ai-agents",
+    "prompt-injection",
+    "pii",
+    "security"
+  ],
+  "author": "Raja Hassaan",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.22.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
