@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AgentGate · pre-flight safety gate for AI agents</title>
+<meta name="description" content="Paste an email, web page, ticket or script. AgentGate masks personal data, catches prompt injection and flags risky scripts with Clocked, then gives an allow / review / block verdict before your AI agent touches it." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath d='M9 23V12l7-4 7 4v11' stroke='%2334d399' stroke-width='2.5' fill='none'/%3E%3Cpath d='M13 23v-6h6v6' stroke='%2334d399' stroke-width='2.5' fill='none'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f172a"/><path d="M9 23V12l7-4 7 4v11" stroke="#34d399" stroke-width="2.5" fill="none"/><path d="M13 23v-6h6v6" stroke="#34d399" stroke-width="2.5" fill="none"/></svg>
+    <div>
+      <h1>AgentGate</h1>
+      <p>A pre-flight safety check for anything your AI agent is about to read or run.</p>
+    </div>
+  </div>
+  <div class="powered">Powered by <a href="https://clocked.rezolve.ai" target="_blank" rel="noopener">Clocked</a>:
+    <span class="pill p-pii">Protect</span><span class="pill p-inj">Guard</span><span class="pill p-scr">Inspect</span><span class="pill p-dec">Decide</span><span class="pill p-fill">Fill</span>
+  </div>
+</header>
+
+<main>
+  <section class="card input">
+    <div class="samples-row">
+      <span class="lbl">Try a sample</span>
+      <div id="samples" class="samples"></div>
+    </div>
+    <div class="grid2">
+      <label>Content type
+        <select id="kind">
+          <option value="email">Email</option>
+          <option value="webpage">Web page</option>
+          <option value="ticket">Support ticket</option>
+          <option value="chat">Chat message</option>
+          <option value="script">Script</option>
+          <option value="document">Document</option>
+        </select>
+      </label>
+      <label>What is the agent about to do with it?
+        <input id="task" maxlength="300" placeholder="e.g. Read my inbox and pay invoices that are due" />
+      </label>
+    </div>
+    <label class="full">Untrusted content
+      <textarea id="text" spellcheck="false" placeholder="Paste an email, web page, support ticket or script…"></textarea>
+    </label>
+    <div class="actions">
+      <span id="chars" class="muted">0 characters</span>
+      <button id="run" class="primary">Run pre-flight check</button>
+    </div>
+  </section>
+
+  <section id="progress" class="card progress hidden">
+    <div class="steps">
+      <div class="step" data-s="pii"><b>Protect</b><span>masking personal data</span></div>
+      <div class="step" data-s="injection"><b>Guard</b><span>looking for prompt injection</span></div>
+      <div class="step" data-s="script"><b>Inspect</b><span>reading scripts without running them</span></div>
+      <div class="arrow">→</div>
+      <div class="step" data-s="decide"><b>Decide</b><span>allow · review · block</span></div>
+      <div class="step" data-s="fill"><b>Fill</b><span>writing the audit record</span></div>
+    </div>
+  </section>
+
+  <div id="error" class="card error hidden"></div>
+
+  <section id="results" class="hidden">
+    <div id="verdict" class="card verdict"></div>
+
+    <div class="card">
+      <div class="card-h"><h2>What AgentGate found in the content</h2>
+        <div class="legend"><span class="hl pii">personal data</span><span class="hl injection">injection evidence</span><span class="hl script">risky script line</span></div>
+      </div>
+      <pre id="annotated" class="annotated"></pre>
+    </div>
+
+    <div class="detectors">
+      <div class="card det" id="det-pii"></div>
+      <div class="card det" id="det-inj"></div>
+      <div class="card det" id="det-scr"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card" id="audit"></div>
+      <div class="card" id="trace"></div>
+    </div>
+  </section>
+
+  <section class="card how">
+    <h2>How it works</h2>
+    <ol>
+      <li><b>Protect</b> (<code>/pii</code>) finds names, emails, phone numbers, card and bank numbers, addresses and secrets, and returns a masked copy. Only the masked copy goes further down the pipeline.</li>
+      <li><b>Guard</b> (<code>/injection</code>) reads the content as untrusted data in the context of your agent's task and quotes the passages that try to take over the agent.</li>
+      <li><b>Inspect</b> (<code>/script</code>) runs only when the content contains a script or command lines. It reads the code without executing it and points to the risky lines.</li>
+      <li><b>Decide</b> (<code>/decide</code>) weighs the three signals and the masked text against a written policy and returns allow, review or block with probabilities, the concerns behind them, and whether the agent may act without asking. An uncertain allow (under 70%) or a failed check becomes review: the gate fails closed.</li>
+      <li><b>Fill</b> (<code>/fill</code>) turns the masked content into an audit record (type, summary, requested actions, pressure, links) you can download as JSON. The record keeps a SHA-256 of the content, never the content itself.</li>
+    </ol>
+    <p class="muted">The Clocked API key stays on the server. Samples are synthetic. Open source: <a href="https://github.com/hassaanraja282-lgtm/agentgate" target="_blank" rel="noopener">github.com/hassaanraja282-lgtm/agentgate</a></p>
+  </section>
+</main>
+<footer>AgentGate · built for the Clocked Build Challenge 2026 · MIT licensed</footer>
+<script src="/app.js"></script>
+</body>
+</html>
